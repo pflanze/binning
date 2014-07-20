@@ -1,3 +1,8 @@
+;; Program to see how long it takes to build histograms from 1 million
+;; floating point values when using a standard CPU.  See "I don't
+;; understand why binning 1 million values would take more than a
+;; second on the CPU" on https://news.ycombinator.com/item?id=7893521
+
 (declare (standard-bindings) (extended-bindings))
 
 ;; XX lib
