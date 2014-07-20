@@ -1,0 +1,8 @@
+Install Gambit-C,
+
+ git clone https://github.com/pflanze/binning.git
+ cd binning
+ git clone https://github.com/pflanze/chj-schemelib.git lib
+ gsc -:tE,dar,t8,f8,-8
+ # see commit messages
+
