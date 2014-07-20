@@ -117,18 +117,18 @@ for (i=0; i<len; i++) {
  #f64(0. .1 .2 .3 .4 .5 .6 .7 .8 .9 1.))
 
 
-(def (histogram-strip-overflows v)
-     (let ((len (u32vector-length v)))
-       (subu32vector v 1 (dec len))))
+(def. (u32vector.chop-both v)
+  (let ((len (u32vector-length v)))
+    (subu32vector v 1 (dec len))))
 
 (TEST
- > (histogram-strip-overflows (u32vector 0 7 0))
+ > (.chop-both (u32vector 0 7 0))
  #u32(7))
 
 (TEST
  > (def nums (random-f64vector 1000000))
  > (def buckets (gen-buckets 1000 0. 1.))
- > (equal? (histogram-strip-overflows (bins nums buckets))
+ > (equal? (.chop-both (bins nums buckets))
 	   (bin nums 1000))
  #t)
 
@@ -173,7 +173,7 @@ for (i=0; i<nvals; i++) {
 
 (TEST
  > (def nums (binnums 1000000)) ;; uneven distribution
- > (equal? (histogram-strip-overflows (bins* nums buckets))
+ > (equal? (.chop-both (bins* nums buckets))
 	   (bin nums 1000))
  #t)
 
@@ -184,7 +184,7 @@ for (i=0; i<nvals; i++) {
 		 (def buckets (gen-buckets n 0. 1.))
 		 (println "--------------------------")
 		 (println n)
-		 (assert (equal? (histogram-strip-overflows (bins* nums buckets))
+		 (assert (equal? (.chop-both (bins* nums buckets))
 				 (bin nums n))))
 	       (list 1000
 		     10000
