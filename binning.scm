@@ -3,6 +3,9 @@
 ;; understand why binning 1 million values would take more than a
 ;; second on the CPU" on https://news.ycombinator.com/item?id=7893521
 
+;; Since the publication above, use of OpenMP has been added. For the
+;; new timings on the same machine, see commit log.
+
 (declare (standard-bindings) (extended-bindings))
 
 (include "lib.scm")
