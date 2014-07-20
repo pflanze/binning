@@ -15,11 +15,13 @@
 
 (def random-f64vector (random-source-make-f64vectors rs))
 
-(def (binnums n)
+(def (gen-binnums n)
      (.map/iota (random-f64vector n)
 		(lambda (v i)
 		  (inexact (* v (/ i n))))))
 
+
+;; --- Buckets of equal sizes: -------------------
 
 (def (bin vec numbuckets)
      (let* ((len (.length vec))
@@ -57,7 +59,7 @@ for (i=0; i<len; i++) {
        res))
 
 
-;; uneven buckets ?
+;; --- Buckets of variable sizes: -------------------
 
 (def (bins:search val buckets nbuckets)
      (let lp ((lo 0)
@@ -106,6 +108,10 @@ for (i=0; i<len; i++) {
  > (bins (f64vector 0.3 0.4 0.0 1.0) (f64vector 0.2 0.5 1.0))
  #u32(1 2 0 1)
  )
+
+
+;; generate vector of buckets of equal sizes, to get the same
+;; behaviour as |bin|:
 
 (def (gen-buckets #(natural? n) #(inexact-real? lo) #(inexact-real? hi))
      (assert (< lo hi))
@@ -183,14 +189,14 @@ for (i=0; i<nvals; i++) {
 	 res)))
 
 (TEST
- > (def nums (binnums 1000000)) ;; uneven distribution
+ > (def nums (gen-binnums 1000000)) ;; uneven distribution
  > (equal? (.chop-both (bins* nums buckets))
 	   (bin nums 1000))
  #t)
 
 
 (def (timings)
-     (def nums (binnums 1000000))
+     (def nums (gen-binnums 1000000))
      (for-each (lambda (n)
 		 (def buckets (gen-buckets n 0. 1.))
 		 (println "--------------------------")
