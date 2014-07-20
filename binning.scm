@@ -198,3 +198,18 @@ for (i=0; i<nvals; i++) {
 	   (bin nums 1000))
  #t)
 
+
+(def (timings)
+     (def nums (binnums 1000000))
+     (for-each (lambda (n)
+		 (def buckets (gen-buckets n 0. 1.))
+		 (println "--------------------------")
+		 (println n)
+		 (assert (equal? (histogram-strip-overflows (bins* nums buckets))
+				 (bin nums n))))
+	       (list 1000
+		     10000
+		     100000
+		     1000000
+		     10000000)))
+
