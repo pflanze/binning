@@ -147,22 +147,25 @@ for (i=0; i<len; i++) {
  #t)
 
 
-(def (bins* vals buckets)
+(defmacro (make-bins* parallel?)
+  (quasiquote-source
+   (lambda (vals buckets)
      (let ((nvals (.length vals))
 	   (nbuckets (.length buckets)))
        (let ((res (make-u32vector (inc nbuckets))))
 	 (time
-	  (##c-code "
+	  (##c-code ,(string-append "
 int nvals= ___INT(___ARG1);
 double* vals= ___BODY(___ARG2);
 int nbuckets= ___INT(___ARG3);
 double* buckets= ___BODY(___ARG4);
 unsigned int* res= ___BODY(___ARG5);
 
-int i;
+int i;" (if (eval parallel?) "
 #pragma omp parallel for                                        \\
     private(i)                                                  \\
-    schedule(dynamic,100)
+    schedule(dynamic,100)"
+	    "") "
 for (i=0; i<nvals; i++) {
     double val= vals[i];
     int bi;
@@ -180,28 +183,33 @@ for (i=0; i<nvals; i++) {
     }
     __atomic_add_fetch(&(res[bi]), 1, __ATOMIC_RELAXED);
 }
-"
+")
 		    nvals
 		    vals
 		    nbuckets
 		    buckets
 		    res))
-	 res)))
+	 res)))))
+
+(def bins* (make-bins* #f))
+(def parallel-bins* (make-bins* #t))
 
 (TEST
  > (def nums (gen-binnums 1000000)) ;; uneven distribution
- > (equal? (.chop-both (bins* nums buckets))
-	   (bin nums 1000))
- #t)
+ > (map (lambda (bins)
+	  (equal? (.chop-both (bins nums buckets))
+		  (bin nums 1000)))
+	(list bins* parallel-bins*))
+ (#t #t))
 
 
-(def (timings)
+(def (timings bins)
      (def nums (gen-binnums 1000000))
      (for-each (lambda (n)
 		 (def buckets (gen-buckets n 0. 1.))
 		 (println "--------------------------")
 		 (println n)
-		 (assert (equal? (.chop-both (bins* nums buckets))
+		 (assert (equal? (.chop-both (bins nums buckets))
 				 (bin* nums n))))
 	       (list 1000
 		     10000
