@@ -16,10 +16,9 @@
 (def random-f64vector (random-source-make-f64vectors rs))
 
 (def (binnums n)
-     (.f64vector
-      (map/iota (lambda (v i)
-		  (inexact (* v (/ i n))))
-		(.list (random-f64vector n)))))
+     (.map/iota (random-f64vector n)
+		(lambda (v i)
+		  (inexact (* v (/ i n))))))
 
 
 (def (bin vec numbuckets)

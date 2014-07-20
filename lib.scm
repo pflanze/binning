@@ -23,3 +23,13 @@
 (def inexact exact->inexact)
 
 (def inexact-real? (both real? inexact?))
+
+(def. (f64vector.map/iota v f)
+  (let* ((len (.length v))
+	 (out (make-f64vector len)))
+    (for..< (i 0 len)
+	    (f64vector-set! out i
+			    (f (f64vector-ref v i) i)))
+    out))
+
+
