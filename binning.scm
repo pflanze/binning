@@ -154,7 +154,7 @@ unsigned int* res= ___BODY(___ARG5);
 int i;
 #pragma omp parallel for                                        \\
     shared(nvals,vals,nbuckets,buckets,res) private(i)          \\
-    schedule(dynamic,20)
+    schedule(dynamic,2000)
 for (i=0; i<nvals; i++) {
     double val= vals[i];
     int bi;
