@@ -193,6 +193,7 @@ for (i=0; i<nvals; i++) {
 	 res)))
 
 (TEST
+ > (def nums (binnums 1000000)) ;; uneven distribution
  > (equal? (histogram-strip-overflows (bins* nums buckets))
 	   (bin nums 1000))
  #t)
