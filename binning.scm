@@ -105,16 +105,22 @@ for (i=0; i<len; i++) {
  #u32(1 2 0 1)
  )
 
-(def (gen-buckets n lo hi)
+(def (gen-buckets #(natural? n) #(inexact-real? lo) #(inexact-real? hi))
+     (assert (< lo hi))
      (let* ((d (- hi lo))
-	    (res (make-f64vector (inc n))))
-       (for..< (i 0 (inc n))
-	       (f64vector-set! res i (+ lo (* d (/ i n)))))
+	    (res (make-f64vector (inc n)))
+	    (n+1 (inc n))
+	    (1/n (exact->inexact (/ 1 n))))
+       (declare (not safe))
+       (for..< (i 0 n+1)
+	       (f64vector-set! res i
+			       (fl+ lo (fl* d (exact->inexact i) 1/n))))
        res))
 
 (TEST
  > (gen-buckets 10 0. 1.)
- #f64(0. .1 .2 .3 .4 .5 .6 .7 .8 .9 1.))
+ ;; #f64(0. .1 .2 .3 .4 .5 .6 .7 .8 .9 1.)
+ #f64(0. .1 .2 .30000000000000004 .4 .5 .6000000000000001 .7000000000000001 .8 .9 1.))
 
 
 (def. (u32vector.chop-both v)
@@ -185,7 +191,7 @@ for (i=0; i<nvals; i++) {
 		 (println "--------------------------")
 		 (println n)
 		 (assert (equal? (.chop-both (bins* nums buckets))
-				 (bin nums n))))
+				 (bin* nums n))))
 	       (list 1000
 		     10000
 		     100000

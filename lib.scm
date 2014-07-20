@@ -22,3 +22,4 @@
 (def. list.f64vector list->f64vector)
 (def inexact exact->inexact)
 
+(def inexact-real? (both real? inexact?))
