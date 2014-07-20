@@ -94,4 +94,6 @@
 (c/load "lib/enum")
 (c/load "lib/easy")
 
-(c/load "binning")
+(c/load "binning"
+	cc-options: "-pthread -fopenmp"
+	ld-options: "-lrt -lgomp")

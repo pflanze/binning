@@ -152,6 +152,9 @@ double* buckets= ___BODY(___ARG4);
 unsigned int* res= ___BODY(___ARG5);
 
 int i;
+#pragma omp parallel for                                        \\
+    shared(nvals,vals,nbuckets,buckets,res) private(i)          \\
+    schedule(dynamic,20)
 for (i=0; i<nvals; i++) {
     double val= vals[i];
     int bi;
@@ -167,7 +170,7 @@ for (i=0; i<nvals; i++) {
         }
         bi= lo;
     }
-    res[bi]++;
+    __atomic_add_fetch(&(res[bi]), 1, __ATOMIC_RELAXED);
 }
 "
 		    nvals
