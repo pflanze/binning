@@ -42,7 +42,6 @@
      (let* ((len (.length vec))
 	    (res (make-u32vector numbuckets))
 	    (numbuckets* (inexact numbuckets)))
-       (declare (not safe))
        (time
 	(##c-code "
 int len= ___INT(___ARG1);
