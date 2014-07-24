@@ -130,13 +130,17 @@ for (i=0; i<len; i++) {
  #f64(0. .1 .2 .30000000000000004 .4 .5 .6000000000000001 .7000000000000001 .8 .9 1.))
 
 
+(def. u32vector.length u32vector-length)
+
 (def. (u32vector.chop-both v)
-  (let ((len (u32vector-length v)))
-    (subu32vector v 1 (dec len))))
+  (subu32vector v 1 (dec (.length v))))
 
 (TEST
  > (.chop-both (u32vector 0 7 0))
- #u32(7))
+ #u32(7)
+ > (.chop-both (u32vector 0 7))
+ #u32())
+
 
 (TEST
  > (def nums (random-f64vector 1000000))
