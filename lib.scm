@@ -33,3 +33,17 @@
     out))
 
 
+
+(def. u32vector.length u32vector-length)
+
+(def. (u32vector.chop-both v)
+  (subu32vector v 1 (dec (.length v))))
+
+(TEST
+ > (.chop-both (u32vector 0 7 0))
+ #u32(7)
+ > (.chop-both (u32vector 0 7))
+ #u32())
+
+
+
