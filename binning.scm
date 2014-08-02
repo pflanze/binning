@@ -194,6 +194,38 @@ for (i=0; i<nvals; i++) {
  (#t #t))
 
 
+;; --- Buckets of variable sizes, faster algorithm, idea 1: --
+
+;; Idea 1: build (multiple?) level(s) atop of the flat buckets array
+;; that fits into the CPU cache, reducing the amount of jumping in the
+;; big array. Search the first level by using parts of the key (e.g. 8
+;; bits) as address.
+
+;; --- Buckets of variable sizes, faster algorithm, idea 2: --
+
+;; Idea 2: have an even bigger level atop the buckets array that
+;; doesn't fit into the CPU cache, still using parts of the key as
+;; address.  Since only one lookup is done, it will still cut down on
+;; memory accesses.
+
+;; e.g. use 24 bits of the 52 bits of the coefficient of the double
+;; value. Will need about 32 MB for the first level map (mapping
+;; address to 16 bits of pointer value, using an in-cache map to find
+;; out what the remaining bits of the pointer value are?; or, even
+;; just use all the necessary bits directly, with 10000000 buckets,
+;; that's 24 bits, hence will need 24* 2**24 bits = 48 MB), then if
+;; the bucket widths aren't very uneven, one single lookup then
+;; reduces the search by close to 24 bits which is already close to
+;; all of it, hence an improvement from about 22 memory accesses (the
+;; last about 2 steps are using cache lines that have already been
+;; read) to 2-3, almost 10 fold. Even if say 8 bits of binary search
+;; remain because the widths vary by a factor of say 256, that's a
+;; reduction from about 22 accesses to about 1+6 accesses, about 3.1
+;; fold.
+
+
+;; --- Timings: -------------------
+
 (def (timings bins)
      (def nums (gen-binnums 1000000))
      (for-each (lambda (n)
