@@ -223,6 +223,16 @@ for (i=0; i<nvals; i++) {
 ;; reduction from about 22 accesses to about 1+6 accesses, about 3.1
 ;; fold.
 
+;; --- Buckets of variable sizes, faster algorithm, idea 2b: --
+
+;; Variant to accomody for very uneven bucket sizes (and assuming that
+;; transforming the key by simple calculation to something +- even
+;; isn't feasible): another level, which maps the first say 10 bits to
+;; pointer+size, size being number of bits that the next level table
+;; (which is pointed to by pointer) maps. (Thus every range resolved
+;; to by the first 10 bits can have its own size, allowing to spend
+;; the memory where more precisely where it is needed.)
+
 
 ;; --- Timings: -------------------
 
