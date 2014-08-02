@@ -6,7 +6,7 @@
 ;; Since the publication above, use of OpenMP has been added. For the
 ;; new timings on the same machine, see commit log.
 
-(declare (standard-bindings) (extended-bindings))
+(declare (standard-bindings) (extended-bindings) (block))
 
 (include "lib.scm")
 
