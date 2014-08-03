@@ -58,3 +58,15 @@
 (def. u64vector.ref u64vector-ref)
 (def. s64vector.ref s64vector-ref)
 (def. vector.ref vector-ref)
+
+(def. f64vector.set! f64vector-set!)
+(def. u8vector.set! u8vector-set!)
+(def. s8vector.set! s8vector-set!)
+(def. u16vector.set! u16vector-set!)
+(def. s16vector.set! s16vector-set!)
+(def. s32vector.set! s32vector-set!)
+(def. u32vector.set! u32vector-set!)
+(def. u64vector.set! u64vector-set!)
+(def. s64vector.set! s64vector-set!)
+(def. vector.set! vector-set!)
+
