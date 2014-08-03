@@ -34,8 +34,7 @@
 		       (i* (inexact->exact
 			    (floor
 			     (* v numbuckets*)))))
-		  (u32vector-set! res i*
-				  (+ (u32vector-ref res i*) 1)))))
+		  (u32vector-inc! res i*))))
        res))
 
 (def (bin* vec numbuckets)
@@ -102,8 +101,7 @@ for (i=0; i<len; i++) {
 	   (i 0 nvals)
 	   (let* ((val (f64vector-ref vals i))
 		  (bi (bins:search val buckets nbuckets)))
-	     (u32vector-set! res bi
-			     (+ (u32vector-ref res bi) 1)))))
+	     (u32vector-inc! res bi))))
 	 res)))
 
 (TEST

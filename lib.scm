@@ -70,3 +70,7 @@
 (def. s64vector.set! s64vector-set!)
 (def. vector.set! vector-set!)
 
+(def (u32vector-inc! v i)
+     (u32vector-set! v i
+		     (+ (u32vector-ref v i) 1)))
+
