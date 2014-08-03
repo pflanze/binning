@@ -62,15 +62,18 @@ for (i=0; i<len; i++) {
 
 ;; returns 0 for underflow, 1 for the first bucket, .., nbuckets for
 ;; overflow
+(def (bins:search* val buckets nbuckets)
+     (named lp
+	    (lambda (lo hi)
+	      (if (< lo hi)
+		  (let ((mid (integer-average lo hi)))
+		    (if (< val (f64vector-ref buckets mid))
+			(lp lo mid)
+			(lp (inc mid) hi)))
+		  lo))))
+
 (def (bins:search val buckets nbuckets)
-     (let lp ((lo 0)
-	      (hi nbuckets))
-       (if (< lo hi)
-	   (let ((mid (integer-average lo hi)))
-	     (if (< val (f64vector-ref buckets mid))
-		 (lp lo mid)
-		 (lp (inc mid) hi)))
-	   lo)))
+     ((bins:search* val buckets nbuckets) 0 nbuckets))
 
 (TEST
  > (def (t x)
