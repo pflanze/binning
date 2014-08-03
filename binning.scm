@@ -60,6 +60,8 @@ for (i=0; i<len; i++) {
 
 ;; --- Buckets of variable sizes: -------------------
 
+;; returns 0 for underflow, 1 for the first bucket, .., nbuckets for
+;; overflow
 (def (bins:search val buckets nbuckets)
      (let lp ((lo 0)
 	      (hi nbuckets))
