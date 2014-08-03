@@ -47,3 +47,14 @@
 
 
 
+
+(def. f64vector.ref f64vector-ref)
+(def. u8vector.ref u8vector-ref)
+(def. s8vector.ref s8vector-ref)
+(def. u16vector.ref u16vector-ref)
+(def. s16vector.ref s16vector-ref)
+(def. s32vector.ref s32vector-ref)
+(def. u32vector.ref u32vector-ref)
+(def. u64vector.ref u64vector-ref)
+(def. s64vector.ref s64vector-ref)
+(def. vector.ref vector-ref)
