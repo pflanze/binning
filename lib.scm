@@ -47,6 +47,36 @@
 
 
 
+;; (def (make-.map make-vector)
+;;      (lambda (v fn)
+;;        (let* ((len (.length v))
+;; 	      (res (make-vector len)))
+;; 	 (for..< (i 0 len)
+;; 		 (.set! res (fn (.ref v i))))
+;; 	 res)))
+
+(defmacro (def-.map type)
+  (let* ((type (source-code type))
+	 (P (lambda (n)
+	      (symbol-append type n))))
+    `(def. ,(symbol-append type 'vector.map)
+       (lambda (v fn)
+	 (let* ((len (,(P 'vector-length) v))
+		(res (,(symbol-append 'make- type 'vector) len)))
+	   (for..< (i 0 len)
+		   (,(P 'vector-set!) res i (fn (,(P 'vector-ref) v i))))
+	   res)))))
+
+(def-.map ||)
+(def-.map u32)
+(def-.map s32)
+(def-.map u16)
+(def-.map s16)
+(def-.map u8)
+(def-.map s8)
+(def-.map f64)
+(def-.map f32)
+
 
 (def. f64vector.ref f64vector-ref)
 (def. u8vector.ref u8vector-ref)
