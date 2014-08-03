@@ -47,6 +47,12 @@
 
 
 
+
+(def. (f64vector.for-each v proc)
+  (let ((len (f64vector.length v)))
+    (for..< (i 0 len)
+	    (proc (f64vector-ref v i)))))
+
 ;; (def (make-.map make-vector)
 ;;      (lambda (v fn)
 ;;        (let* ((len (.length v))

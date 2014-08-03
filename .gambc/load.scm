@@ -91,9 +91,14 @@
   (c/load "lib/cj-io-util")
   (i/load "lib/cj-path"))
 
+(c/load "lib/local-test")
+
 (c/load "lib/enum")
 (c/load "lib/easy")
 
 (c/load "binning"
 	cc-options: "-pthread -fopenmp"
 	ld-options: "-lrt -lgomp")
+
+(c/load "morebinning")
+
