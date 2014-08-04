@@ -141,7 +141,7 @@ for (i=0; i<len; i++) {
 (TEST
  > (def nums (random-f64vector 1000000))
  > (def buckets (gen-buckets 1000 0. 1.))
- > (equal? (.chop-both (bins nums buckets))
+ > (equal? (.chop-both-ends (bins nums buckets))
 	   (bin nums 1000))
  #t)
 
@@ -196,7 +196,7 @@ for (i=0; i<nvals; i++) {
 (TEST
  > (def nums (gen-binnums 1000000)) ;; uneven distribution
  > (map (lambda (bins)
-	  (equal? (.chop-both (bins nums buckets))
+	  (equal? (.chop-both-ends (bins nums buckets))
 		  (bin nums 1000)))
 	(list bins* parallel-bins*))
  (#t #t))
@@ -252,7 +252,7 @@ for (i=0; i<nvals; i++) {
 		 (def buckets (gen-buckets n 0. 1.))
 		 (println "--------------------------")
 		 (println n)
-		 (assert (equal? (.chop-both (bins nums buckets))
+		 (assert (equal? (.chop-both-ends (bins nums buckets))
 				 (bin* nums n))))
 	       (list 1000
 		     10000

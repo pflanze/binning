@@ -36,13 +36,13 @@
 
 (def. u32vector.length u32vector-length)
 
-(def. (u32vector.chop-both v)
+(def. (u32vector.chop-both-ends v)
   (subu32vector v 1 (dec (.length v))))
 
 (TEST
- > (.chop-both (u32vector 0 7 0))
+ > (.chop-both-ends (u32vector 0 7 0))
  #u32(7)
- > (.chop-both (u32vector 0 7))
+ > (.chop-both-ends (u32vector 0 7))
  #u32())
 
 
@@ -110,3 +110,6 @@
      (u32vector-set! v i
 		     (+ (u32vector-ref v i) 1)))
 
+
+;; make compatible with code in older commit messages:
+(def .chop-both .chop-both-ends)

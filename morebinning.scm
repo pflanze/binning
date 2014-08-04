@@ -213,6 +213,6 @@ for (i=0; i<nvals; i++) {
  > ((lambda (n b)
       (let ((nums (gen-binnums 1000000)))
 	(equal? (bin* nums n)
-		(.chop-both (parallel-morebins* nums (gen-buckets n 0. 1.) b)))))
+		(.chop-both-ends (parallel-morebins* nums (gen-buckets n 0. 1.) b)))))
     10000 16)
  #t)
