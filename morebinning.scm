@@ -137,12 +137,14 @@ res[0]= getbits32(bit_index,numbits,is[0]);
 			((bins:search* x buckets nbuckets) j1 j2))))))
        res))
 
-(def (morebins* vals buckets level1-bits)
+(defmacro (make-morebins* parallel?)
+  (quasiquote-source
+   (lambda (vals buckets level1-bits)
      (let* ((level1 (buckets->level1 buckets level1-bits))
 	    (nvals (.length vals))
 	    (nbuckets (.length buckets))
 	    (res (make-u32vector (inc nbuckets))))
-       (time (##c-code "
+       (time (##c-code ,(string-append "
 int nvals= ___INT(___ARG1);
 double *vals = ___BODY(___ARG2);
 int nbuckets = ___INT(___ARG3);
@@ -151,7 +153,11 @@ unsigned int *level1 = ___BODY(___ARG5);
 int level1bits= ___INT(___ARG6);
 unsigned int *res = ___BODY(___ARG7);
 
-int i;
+int i;" (if (eval parallel?) "
+#pragma omp parallel for                                        \\
+    private(i)                                                  \\
+    schedule(dynamic,100)"
+	    "") "
 for (i=0; i<nvals; i++) {
     double x= vals[i];
     int bi;
@@ -174,15 +180,18 @@ for (i=0; i<nvals; i++) {
     }
     __atomic_add_fetch(&(res[bi]), 1, __ATOMIC_RELAXED);
 }
-"
-		  nvals
-		  vals
-		  nbuckets
-		  buckets
-		  level1
-		  level1-bits
-		  res))
-       res))
+")
+	     nvals
+	     vals
+	     nbuckets
+	     buckets
+	     level1
+	     level1-bits
+	     res))
+       res))))
+
+(def morebins* (make-morebins* #f))
+(def parallel-morebins* (make-morebins* #t))
 
 (TEST
  > (def (t morebins)

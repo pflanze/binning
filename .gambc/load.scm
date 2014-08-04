@@ -100,5 +100,7 @@
 	cc-options: "-pthread -fopenmp"
 	ld-options: "-lrt -lgomp")
 
-(c/load "morebinning")
+(c/load "morebinning"
+	cc-options: "-pthread -fopenmp"
+	ld-options: "-lrt -lgomp")
 
