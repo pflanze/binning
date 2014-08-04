@@ -63,6 +63,7 @@
   (c/load "lib/cj-env-2")
 
   (c/load "lib/cj-math")
+  (c/load "lib/predicates")
 
   ;; only needed at runtime (when running the tests)
   (c/load "lib/lazy-debug")
@@ -86,6 +87,8 @@
   (c/load "lib/constants")
 
   (c/load "lib/oo-util")
+  (c/load "lib/easy")
+  (c/load "lib/oo-vector-lib")
 
   (c/load "lib/u8-parse")
   (c/load "lib/cj-io-util")
@@ -94,7 +97,6 @@
 (c/load "lib/local-test")
 
 (c/load "lib/enum")
-(c/load "lib/easy")
 
 (c/load "binning"
 	cc-options: "-pthread -fopenmp"
