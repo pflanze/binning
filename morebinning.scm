@@ -74,7 +74,12 @@ res[0]= getbits32(bit_index,numbits,is[0]);
 ;; level1 is a vector using level1-bits as index -> index-into-buckets
 ;; (XX more precisely, a value that can be passed to bins:search*,
 ;; which is 1 higher)
+
+(compile-time
+ (def buckets->level1-safe? #f))
+
 (def (buckets->level1 buckets level1-bits)
+     (IF (not buckets->level1-safe?) (declare (not safe)))
      ;; XXX assumes that min and max of buckets are 0. and 1.
      (let* ((siz (arithmetic-shift 1 level1-bits))
 	    (l1 (make-u32vector (inc siz)))
@@ -84,7 +89,8 @@ res[0]= getbits32(bit_index,numbits,is[0]);
 	    (level1bits (getbits32 0 level1-bits)))
        (for..< (i 0 siz)
 	       (let* ((idouble (* i divider)))
-		 (assert (= i (level1bits (0..1->uint32 idouble))))
+		 (IF buckets->level1-safe?
+		     (assert (= i (level1bits (0..1->uint32 idouble)))))
 		 ;; ^ XX is there a better way to solve it? walk
 		 ;; doubles instead of integers and fill in holes (but
 		 ;; how, correctly?)
