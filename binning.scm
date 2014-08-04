@@ -4,7 +4,12 @@
 ;; second on the CPU" on https://news.ycombinator.com/item?id=7893521
 
 ;; Since the publication above, use of OpenMP has been added. For the
-;; new timings on the same machine, see commit log.
+;; new timings on the same machine, see commit log. Also, an
+;; additional algorithm has been implemented, see
+;; morebinning.scm. That latter algorithm (which supports buckets of
+;; varying widths), when using OpenMP with 2 cores, runs about 100
+;; times faster with 10'000 buckets than the software solution used by
+;; the original author.
 
 (declare (standard-bindings) (extended-bindings) (block))
 
@@ -225,6 +230,8 @@ for (i=0; i<nvals; i++) {
 ;; remain because the widths vary by a factor of say 256, that's a
 ;; reduction from about 22 accesses to about 1+6 accesses, about 3.1
 ;; fold.
+
+;; -> implemented in morebinning.scm
 
 ;; --- Buckets of variable sizes, faster algorithm, idea 2b: --
 
