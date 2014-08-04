@@ -4,5 +4,6 @@ Install Gambit-C,
  cd binning
  git clone https://github.com/pflanze/chj-schemelib.git lib
  gsc -:tE,dar,t8,f8,-8
- # see commit messages
 
+First read binning.scm, then optinally morebinnings.scm.  See commit
+messages for examples how to derive timings.
