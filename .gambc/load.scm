@@ -88,6 +88,7 @@
 
   (c/load "lib/oo-util")
   (c/load "lib/easy")
+  (c/load "lib/code-map")
   (c/load "lib/oo-vector-lib")
 
   (c/load "lib/u8-parse")
